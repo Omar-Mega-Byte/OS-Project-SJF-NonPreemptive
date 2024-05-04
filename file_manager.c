@@ -2,62 +2,59 @@
 #include <stdlib.h>
 #include <string.h>
 
+char path[100], num[100], dest[100], command[200];
+
 void listFiles() {
-    system("ls -l");
-}
-
-void changePermissions() {
-    char filename[100];
-    int permissions;
-
-    printf("Enter file name: ");
-    scanf("%s", filename);
-    printf("Enter new permissions (e.g., 755): ");
-    scanf("%d", &permissions);
-
-    char command[200];
-    sprintf(command, "chmod %d %s", permissions, filename);
+    strcpy(command, "ls ");
+    printf("Please enter the path of the file that you want to list its files:\n");
+    scanf("%s", path);
+    strcat(command, path);
     system(command);
 }
 
 void create() {
-    char dirname[100];
-    char filename[100];
-
-    printf("Enter directory name to create: ");
-    scanf("%s", dirname);
-    char mkdirCommand[200];
-    sprintf(mkdirCommand, "mkdir %s", dirname);
-    system(mkdirCommand);
-
+    strcpy(command, "mkdir ");
+    printf("Please enter the path of the file:\n");
+    scanf("%s", path);
+    system(strcat(command, path));
 }
-void delete() {
-    char name[100];
-    printf("Enter file/directory name to delete: ");
-    scanf("%s", name);
 
-    char command[200];
-    sprintf(command, "rm -rf %s", name);
-    system(command);
+void delete() {
+    strcpy(command, "rmdir ");
+    printf("Please enter the path of the file:\n");
+    scanf("%s", path);
+    system(strcat(command, path));
 }
 
 void createSymbolicLink() {
-    char target[100];
-    char linkname[100];
+    strcpy(command, "ln -s ");
+    printf("Please enter the path of the file:\n");
+    scanf("%s", path);
 
-    printf("Enter target file/directory: ");
-    scanf("%s", target);
-    printf("Enter link name: ");
-    scanf("%s", linkname);
+    printf("Enter the destination of the file:\n");
+    scanf("%s", dest);
 
-    char symlinkCommand[300];
-    strcpy(symlinkCommand, "ln -s ");
-    strcat(symlinkCommand, target);
-    strcat(symlinkCommand, " ");
-    strcat(symlinkCommand, linkname);
-    strcat(symlinkCommand, "-sym");
-    system(symlinkCommand);
+    strcat(command, path);
+    strcat(command, " ");
+    strcat(command, dest);
+
+    system(command);
 }
+
+void changePermissions() {
+    strcpy(command, "sudo chmod ");
+    printf("Please enter the permissions for the file.\n");
+    printf("Use the following format: [read/write/execute],[owner/group/other]\n");
+    printf("Permissions (r/w/x),(O/G/N): ");
+    scanf("%s", num);
+    printf("Enter the path of the file:\n");
+    scanf("%s", path);
+    strcat(command, num);
+    strcat(command, " ");
+    strcat(command, path);
+    system(command);
+}
+
 
 
 int main() {
